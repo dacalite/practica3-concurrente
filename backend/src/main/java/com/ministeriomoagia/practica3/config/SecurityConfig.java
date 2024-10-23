@@ -49,6 +49,7 @@ public class SecurityConfig {
                         .requestMatchers("/public/login").permitAll()
                         .requestMatchers("/public/register").permitAll()
                         .requestMatchers("/public/api/v1/health").permitAll()
+                        .requestMatchers("/public/api/v1/logs").permitAll()
                         .requestMatchers("/public/api/v1/magicians").permitAll()
                         .requestMatchers("/public/api/v1/magicians/evoke").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
