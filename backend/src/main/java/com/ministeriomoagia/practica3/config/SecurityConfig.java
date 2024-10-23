@@ -46,9 +46,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/public/api/v1/health").permitAll()
                         .requestMatchers("/public/login").permitAll()
                         .requestMatchers("/public/register").permitAll()
+                        .requestMatchers("/public/api/v1/health").permitAll()
+                        .requestMatchers("/public/api/v1/magicians").permitAll()
+                        .requestMatchers("/public/api/v1/magicians/evoke").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().hasAnyRole("USER", "ADMIN")
                 )
