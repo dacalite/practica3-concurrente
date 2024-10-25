@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-alpine
 WORKDIR /app
 
 # Copiamos el archivo JAR en el contenedor
-COPY target/backend-0.0.1-SNAPSHOT.jar /app/backend.jar
+COPY target/practica3-0.0.1-SNAPSHOT.jar /app/backend.jar
 
 # Exponemos el puerto en el que el backend escucha
 EXPOSE 8080
