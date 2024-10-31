@@ -8,7 +8,7 @@ interface GenericPageProps extends BasePageProps {
 
 const GenericPage: React.FC<GenericPageProps> = ({ logoutUser, children }) => {
   return (
-    <div className='select-none w-screen h-screen p-0 m-0'>
+    <div className='select-none w-screen h-screen p-0 m-0 overflow-hidden'>
       <Header handleLogout={logoutUser} />
       {/* Renderizamos el componente específico como children */}
       {children}
