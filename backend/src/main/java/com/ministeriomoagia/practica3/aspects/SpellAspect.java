@@ -31,7 +31,7 @@ public class SpellAspect implements MethodInterceptor {
         // Validación del tipo
         assert magician != null;
         if (!magician.getType().equals(spell.getType())) {
-            loggingService.logError(String.format("Magician %s [type %s] cannot evoke %s spell due to type incompatibility", magician.getName(), magician.getType(), spell.getName()));
+            loggingService.logError(String.format("Magician %s [%s] cannot evoke %s spell due to type incompatibility", magician.getName(), magician.getType(), spell.getName()));
             throw new SpellTypeMismatchException("Type mismatch");
         }
 
@@ -51,7 +51,7 @@ public class SpellAspect implements MethodInterceptor {
         System.out.printf("%s successfully evoked %s\n", magician.getName(), spell.getName());
 
         // Registrar el evento
-        loggingService.logEvent(String.format("Magician %s [Lvl. %d] evoked %s and earned XP", magician.getName(), magician.getLevel(), spell.getName()));
+        loggingService.logEvent(String.format("Magician %s [Lvl. %d] evoked %s and earned %d XP", magician.getName(), magician.getLevel(), spell.getName(), spell.getExperienceEarned()));
 
         //Incrementar la experiencia del mago
         magicianService.increaseMagicianExperience(magician.getName(), spell.getExperienceEarned());

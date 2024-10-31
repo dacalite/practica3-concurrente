@@ -13,6 +13,7 @@ import com.ministeriomoagia.practica3.models.spells.FireSpell;
 import com.ministeriomoagia.practica3.models.spells.WaterSpell;
 import com.ministeriomoagia.practica3.models.spells.WindSpell;
 import com.ministeriomoagia.practica3.proxies.MagicianProxyFactory;
+import com.ministeriomoagia.practica3.services.LoggingService;
 import com.ministeriomoagia.practica3.services.MagicianService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,23 +30,25 @@ public class MagicianController {
     private final MagicianService magicianService;
     private final MagicianProxyFactory magicianProxyFactory;
     private final Map<SpellType, List<Spell>> spellMap = new HashMap<>();  // Mapa para almacenar hechizos
+    private final LoggingService loggingService;
 
     @Autowired
-    public MagicianController(MagicianService magicianService, SpellAspect spellAspect) {
+    public MagicianController(MagicianService magicianService, SpellAspect spellAspect, LoggingService loggingService) {
         this.magicianService = magicianService;
         this.magicianProxyFactory = new MagicianProxyFactory(spellAspect); // Creamos el factory para proxies
+        this.loggingService = loggingService;
     }
 
     // Inicialización del mapa con hechizos
     @PostConstruct
     public void init() {
-        spellMap.put(SpellType.FIRE, Arrays.asList(new FireSpell("Incendio", 0, 200), new FireSpell("Lacarnum Inflamari", 1, 500), new FireSpell("Confringo", 5, 1000), new FireSpell("Fiendfyre", 15, 1500)));
+        spellMap.put(SpellType.FIRE, Arrays.asList(new FireSpell("Incendio", 0, 200), new FireSpell("Inflamari", 1, 500), new FireSpell("Confringo", 5, 1000), new FireSpell("Fiendfyre", 15, 1500)));
 
-        spellMap.put(SpellType.WATER, Arrays.asList(new WaterSpell("Aguamenti", 0, 200), new WaterSpell("Glacius", 1, 500), new WaterSpell("Aguamenta Magna", 5, 1000), new WaterSpell("Tsunamis", 15, 1500)));
+        spellMap.put(SpellType.WATER, Arrays.asList(new WaterSpell("Aguamenti", 0, 200), new WaterSpell("Glacius", 1, 500), new WaterSpell("Aquarium", 5, 1000), new WaterSpell("Tsunamis", 15, 1500)));
 
         spellMap.put(SpellType.WIND, Arrays.asList(new WindSpell("Ventus", 0, 200), new WindSpell("Depulso", 1, 500), new WindSpell("Aero", 5, 1000), new WindSpell("Tempestus", 15, 1500)));
 
-        spellMap.put(SpellType.DARKNESS, Arrays.asList(new DarknessSpell("Nox", 0, 200), new DarknessSpell("Obscuro", 1, 500), new DarknessSpell("Morsmordre", 5, 1000), new DarknessSpell("Avada Kedavra", 15, 1500)));
+        spellMap.put(SpellType.DARKNESS, Arrays.asList(new DarknessSpell("Nox", 0, 200), new DarknessSpell("Obscuro", 1, 500), new DarknessSpell("Morsmordre", 5, 1000), new DarknessSpell("Nocturnis", 15, 1500)));
     }
 
     // Obtener todos los magos
@@ -68,6 +71,7 @@ public class MagicianController {
     public ResponseEntity<String> addMagician(@RequestBody Magician magician, @RequestHeader HttpHeaders headers) { // Accept HttpHeaders
         try {
             magicianService.addNewMagician(new Magician(magician.getName(), magician.getExperience(), magician.getType()));
+            loggingService.clearLogs();
             return ResponseEntity.ok("Magician created");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

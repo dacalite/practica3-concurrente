@@ -28,4 +28,10 @@ public class LoggingService {
         LogEntry logEntry = new LogEntry(message, level);
         logEntryRepository.save(logEntry);
     }
+
+    // New method to clear all logs
+    public void clearLogs() {
+        logEntryRepository.deleteAll();
+        logger.info("All logs have been cleared.");
+    }
 }
